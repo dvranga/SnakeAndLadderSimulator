@@ -15,7 +15,7 @@ SNAKE=2;
 echo "select noplay,ladder or snake"
 WIN_POSTION=30;
 echo "winning position is: " $WIN_POSTION
-while [ $firstPlayerIndex -le $WIN_POSTION ]
+while [ $firstPlayerIndex -le $WIN_POSTION ] && [ $secondPlayerIndex -le $WIN_POSTION ]
 do
 	echo "first player press enter to roll the die"
 	read
