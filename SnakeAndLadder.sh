@@ -42,15 +42,16 @@ do
 				echo player took $DIE_ROLL_COUNTER  chances to win the game
 				break
 			fi
+
 		fi
 		 ;;
         $SNAKE)
+		echo "(snake came )position is : " $firstPlayerIndex
                 firstPlayerIndex=$(( $firstPlayerIndex - $RANDOM_DIE_NUMBER ))
-		echo "(snake)position is : " $firstPlayerIndex
+		echo "(snake)position go back to : " $firstPlayerIndex
 		DIE_ROLL_COUNTER=$(( $DIE_ROLL_COUNTER + 1 ))
 		if [ $firstPlayerIndex -lt $START_POSITION ]
 		then
-			echo "firstPlayerindex " $firstPlayerIndex
 			echo "firstPlayerindex is less than zero so initialize zero"
 			firstPlayerIndex=$START_POSITION
 			echo $firstPlayerIndex
@@ -85,12 +86,12 @@ do
 		fi
 		 ;;
         $SNAKE)
-                firstPlayerIndex=$(( $secondPlayerIndex - $RANDOM_DIE_NUMBER2 ))
-		echo "(snake)position is : " $firstPlayerIndex
+		echo "(snake came )position is : " $secondPlayerIndex
+                secondPlayerIndex=$(( $secondPlayerIndex - $RANDOM_DIE_NUMBER2 ))
 		DIE_ROLL_COUNTER2=$(( $DIE_ROLL_COUNTER2 + 1 ))
+		echo "secondPlayerindex goes back to " $secondPlayerIndex
 		if [ $secondPlayerIndex -lt $START_POSITION ]
 		then
-			echo "secondPlayerindex " $secondPlayerIndex
 			echo "secondPlayerindex is less than zero so initialize zero"
 			secondPlayerIndex=$START_POSITION
 			echo $secondPlayerIndex
@@ -98,3 +99,4 @@ do
 		;;
         esac
 done
+
