@@ -8,95 +8,81 @@ firstPlayerIndex=$START_POSITION;
 secondPlayerIndex=$START_POSITION;
 echo "firstPlayerIndex :"$START_POSITION;
 echo "secondPlayerIndex :"$START_POSITION;
-echo "NUMBER_OF_PLAYER :" $NUMBER_OF_PLAYER
+echo "NUMBER_OF_PLAYER :" $NUMBER_OF_PLAYER;
+playerIndex=$START_POSITION;
 NOPLAY=0;
 LADDER=1;
 SNAKE=2;
 echo "select noplay,ladder or snake"
-WIN_POSTION=30;
+WIN_POSTION=10;
 echo "winning position is: " $WIN_POSTION
-while [ $firstPlayerIndex -le $WIN_POSTION ] && [ $secondPlayerIndex -le $WIN_POSTION ]
-do
-	echo "first player press enter to roll the die"
+
+function game()
+{
+	echo " player press enter to roll the die"
 	read
 	SELECT=$(( $RANDOM%3 ))
 	RANDOM_DIE_NUMBER=$(( $RANDOM%6+1 ))
         case $SELECT in
         $NOPLAY)
-                firstPlayerIndex=$firstPlayerIndex
+                playerIndex=$playerIndex
 		DIE_ROLL_COUNTER=$(( $DIE_ROLL_COUNTER + 1 ))
-                echo "(Noplay)position is : " $firstPlayerIndex ;;
+                echo "(Noplay)position is : " $playerIndex
+		 ;;
         $LADDER)
-		if [ $(( $firstPlayerIndex + $RANDOM_DIE_NUMBER )) -gt $WIN_POSTION  ]
+		if [ $(( $playerIndex + $RANDOM_DIE_NUMBER )) -gt $WIN_POSTION  ]
 		then
-                	firstPlayerIndex=$firstPlayerIndex
+                	playerIndex=$playerIndex
 			DIE_ROLL_COUNTER=$(( $DIE_ROLL_COUNTER + 1 ))
-			echo "(Ladder)position is : " $firstPlayerIndex
+			echo "(Ladder)position is : " $playerIndex
 		else
 			DIE_ROLL_COUNTER=$(( $DIE_ROLL_COUNTER + 1 ))
-			firstPlayerIndex=$(( $firstPlayerIndex + $RANDOM_DIE_NUMBER ))
-                	echo "(ladder) position is : " $firstPlayerIndex
-			if [ $firstPlayerIndex -eq $WIN_POSTION ]
+			playerIndex=$(( $playerIndex + $RANDOM_DIE_NUMBER ))
+                	echo "(ladder) position is : " $playerIndex
+			if [ $playerIndex -eq $WIN_POSTION ]
 			then
-				echo "first player win the game reached to last position " $firstPlayerIndex
-				echo player took $DIE_ROLL_COUNTER  chances to win the game
-				break
+				echo " player win the game reached to last position " $playerIndex
+				echo "player took" $DIE_ROLL_COUNTER  "chances to win the game"
 			fi
 
 		fi
 		 ;;
         $SNAKE)
-		echo "(snake came )position is : " $firstPlayerIndex
-                firstPlayerIndex=$(( $firstPlayerIndex - $RANDOM_DIE_NUMBER ))
-		echo "(snake)position go back to : " $firstPlayerIndex
+		echo "(snake came )position is : " $playerIndex
+                playerIndex=$(( $playerIndex - $RANDOM_DIE_NUMBER ))
+		echo "(snake)position go back to : " $playerIndex
 		DIE_ROLL_COUNTER=$(( $DIE_ROLL_COUNTER + 1 ))
-		if [ $firstPlayerIndex -lt $START_POSITION ]
+		if [ $playerIndex -lt $START_POSITION ]
 		then
-			echo "firstPlayerindex is less than zero so initialize zero"
-			firstPlayerIndex=$START_POSITION
-			echo $firstPlayerIndex
+			echo "Playerindex is less than zero so initialize zero"
+			playerIndex=$START_POSITION
+			echo $playerIndex
 		fi
 		;;
         esac
-	echo "second player press enter to roll the die"
-	read
-	SELECT2=$(( $RANDOM%3 ))
-	RANDOM_DIE_NUMBER2=$(( $RANDOM%6+1 ))
-        case $SELECT2 in
-        $NOPLAY)
-                secondPlayerIndex=$secondPlayerIndex
-		DIE_ROLL_COUNTER2=$(( $DIE_ROLL_COUNTER2 + 1 ))
-                echo "(Noplay)position is : " $secondPlayerIndex ;;
-        $LADDER)
-		if [ $(( $secondPlayerIndex + $RANDOM_DIE_NUMBER2 )) -gt $WIN_POSTION  ]
-		then
-                	secondPlayerIndex=$secondPlayerIndex
-			DIE_ROLL_COUNTER2=$(( $DIE_ROLL_COUNTER2 + 1 ))
-			echo "(Ladder)position is : " $secondPlayerIndex
-		else
-			DIE_ROLL_COUNTER2=$(( $DIE_ROLL_COUNTER2 + 1 ))
-			secondPlayerIndex=$(( $secondPlayerIndex + $RANDOM_DIE_NUMBER2 ))
-                	echo "(ladder) position is : " $secondPlayerIndex
-			if [ $secondPlayerIndex -eq $WIN_POSTION ]
+};
+check=true;
+while [ $firstplayerPosition -lt $WINNING_POSITION ] && [ $secondPlayerPosition -lt $WINNING_POSITION ]
+do
+	if [ $(($DIE_ROLL_COUNTER%2)) -eq 0 ]
+	then
+		echo firstPlayer turn
+		 playerPosition=$firstPlayerPosition
+		 game $playerPosition
+			if [ $playerIndex -eq $WIN_POSTION ]
 			then
-				echo "second player win the game reached to last position " $secondPlayerIndex
-				echo player took $DIE_ROLL_COUNTER2  chances to win the game
+				echo "player one won"
 				break
 			fi
-		fi
-		 ;;
-        $SNAKE)
-		echo "(snake came )position is : " $secondPlayerIndex
-                secondPlayerIndex=$(( $secondPlayerIndex - $RANDOM_DIE_NUMBER2 ))
-		DIE_ROLL_COUNTER2=$(( $DIE_ROLL_COUNTER2 + 1 ))
-		echo "secondPlayerindex goes back to " $secondPlayerIndex
-		if [ $secondPlayerIndex -lt $START_POSITION ]
-		then
-			echo "secondPlayerindex is less than zero so initialize zero"
-			secondPlayerIndex=$START_POSITION
-			echo $secondPlayerIndex
-		fi
-		;;
-        esac
+	else
+		echo second player turn
+		 playerPosition=$secondPlayerPosition
+		 game $playerPosition
+			if [ $playerIndex -eq $WIN_POSTION ]
+			then
+				echo "player two won"
+				break
+			fi
+	fi
+
 done
-
