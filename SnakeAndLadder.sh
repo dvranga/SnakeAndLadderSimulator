@@ -20,8 +20,20 @@ do
                 firstPlayerIndex=$firstPlayerIndex
                 echo "(Noplay)position is : " $firstPlayerIndex ;;
         $LADDER)
-                firstPlayerIndex=$(( $firstPlayerIndex + $RANDOM_DIE_NUMBER ))
-                echo "(ladder) position is : " $firstPlayerIndex ;;
+		if [ $(( $firstPlayerIndex + $RANDOM_DIE_NUMBER )) -gt $WIN_POSTION  ]
+		then
+                	firstPlayerIndex=$firstPlayerIndex
+			echo "(Ladder)position is : " $firstPlayerIndex
+		else
+			firstPlayerIndex=$(( $firstPlayerIndex + $RANDOM_DIE_NUMBER ))
+                	echo "(ladder) position is : " $firstPlayerIndex
+			if [ $firstPlayerIndex -eq $WIN_POSTION ]
+			then
+				echo "first player win the game reachec to last position " $firstPlayerIndex
+				break
+			fi
+		fi
+		 ;;
         $SNAKE)
                 firstPlayerIndex=$(( $firstPlayerIndex - $RANDOM_DIE_NUMBER ))
 		echo "(snake)position is : " $firstPlayerIndex
